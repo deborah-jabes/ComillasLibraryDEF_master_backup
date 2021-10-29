@@ -74,7 +74,7 @@ public class JLogin extends JFrame {
                 //System.out.println(resultado);
                 if(resultado == 1) // Ningun problema
                 {
-                    new JOpciones();
+                    new JOpciones(u);
                     dispose();
                 }
                 else //Username/Password incorrecto

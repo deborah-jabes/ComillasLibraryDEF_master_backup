@@ -7,27 +7,43 @@ public class JOpciones extends JFrame
 {
     //Variables
     JButton reservar;
-    JLabel titulo;
+    JButton cancelar;
+    JButton perfil;
+    JButton salir;
 
     public static void main(String argv[])
     {
-        new JMenu();
+        new JOpciones("default");
     }
 
-    public JOpciones()
+    public JOpciones(String usuario)
     {
         super("ComillasLibrary: Menu Principal");
 
         //Instanciar variables
+        reservar = new JButton("Reserva un asiento");
+        cancelar = new JButton("Cancelar la reserva");
+        perfil = new JButton("Perfil");
+        salir = new JButton("Salir");
         Font fontTitulo = new Font("Arial",Font.BOLD,20);
 
         //Paneles
         JPanel pnlNorth = new JPanel();
+        JPanel pnlSouth = new JPanel();
 
         //Modificacion fuentes
         //titulo.setFont(fontTitulo);
 
         //Norte
+        pnlNorth.setLayout(new GridLayout(1, 3));
+        pnlNorth.add(reservar);
+        pnlNorth.add(cancelar);
+        pnlNorth.add(perfil);
+        this.add(pnlNorth, BorderLayout.NORTH);
+
+        //Sur
+        pnlSouth.add(salir);
+        this.add(pnlSouth, BorderLayout.SOUTH);
 
         //Ventana
         this.setSize(800,800);
@@ -35,14 +51,25 @@ public class JOpciones extends JFrame
         this.setVisible(true);
 
         //Funciones botones
-        /*login.addActionListener(new ActionListener() {
+
+        reservar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new JReserva(usuario);
+            }
+        });
+
+
+        salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
                 dispose();
                 new JLogin();
             }
-        }); */
+        });
+
+
     }
 }
