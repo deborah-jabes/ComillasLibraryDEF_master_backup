@@ -1,13 +1,12 @@
 package ui;
 
 import dtc.isw.client.Client;
-import dtc.isw.domain.Customer;
-import util.JInfoBox;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JReserva extends JFrame {
@@ -19,6 +18,8 @@ public class JReserva extends JFrame {
     JComboBox horaIn;
     JComboBox horaFin;
     JButton salir;
+    HashMap<String,Object> h = new HashMap<String,Object>();
+    ArrayList<Object> noRepeat = new ArrayList<Object>();
 
     public void main(String argv[])
     {
@@ -50,6 +51,69 @@ public class JReserva extends JFrame {
         horaIn.setFont(fontTexto);
         horaFin.setFont(fontTexto);
 
+        //Configuracion ComboBoxes
+
+        //biblioteca
+        biblioteca.addItem("");
+        biblioteca.addItem("Calle de Alberto Aguilera 25");
+
+        //planta
+        planta.addItem("");
+        //planta.addItem("3ª Planta");
+        //planta.addItem("4ª Planta");
+        //planta.addItem("5ª Planta");
+
+        biblioteca.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noRepeat = new ArrayList<Object>(); // CUANDO PONGAMOS NUEVA BIBLIOTECA, HAY QUE EVITAR QUE SE REPITA LOS VALORES
+                Client client = new Client();
+                HashMap<String,Object> session = new HashMap<>();
+                session.put("table","listaasientos");
+                session.put("condicion","ocupado=false AND biblioteca='"+ biblioteca.getSelectedItem().toString()+"'");
+                session.put("columna", 2);
+                client.enviar("/getColumnInfo",session);
+                h = (HashMap<String,Object>) session.get("Respuesta");
+                for(Integer i = 0; i< h.size();i++)
+                {
+                    String s = (String) h.get(i.toString());
+                    if(!noRepeat.contains(s))
+                    {
+                        planta.addItem(s);
+                        noRepeat.add(s);
+                        System.out.println(noRepeat.contains(h.get(i.toString())));
+                    }
+                }
+            }
+        });
+
+        //mesa
+
+        mesa.addItem("");
+
+        planta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client client = new Client();
+                HashMap<String,Object> session = new HashMap<>();
+                session.put("table","listaasientos");
+                session.put("condicion","ocupado=false AND biblioteca='" + biblioteca.getSelectedItem().toString() + "' AND planta='" + planta.getSelectedItem().toString() + "'");
+                session.put("columna", 3);
+                client.enviar("/getColumnInfo",session);
+                h = (HashMap<String,Object>) session.get("Respuesta");
+                for(Integer i = 0; i< h.size();i++)
+                {
+                    String s = (String) h.get(i.toString());
+                    if(!noRepeat.contains(s))
+                    {
+                        mesa.addItem(s);
+                        noRepeat.add(s);
+                        System.out.println(noRepeat.contains(h.get(i.toString())));
+                    }
+                }
+            }
+        });
+
         //Norte
         pnlNorth.setLayout(new GridLayout(1, 4));
         pnlNorth.add(biblioteca);
@@ -67,6 +131,9 @@ public class JReserva extends JFrame {
         this.setSize(800, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+
+
+
 
         //Funciones botones
         salir.addActionListener(new ActionListener() {

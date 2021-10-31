@@ -52,6 +52,11 @@ public class Client {
                 session.put("Respuesta",res);
                 break;
 
+            case "/getColumnInfoEnd":
+                HashMap<String,Object> h = (HashMap<String, Object>) mensajeVuelta.getSession();
+                session.put("Respuesta",h);
+                break;
+
             default:
                 Logger.getRootLogger().info("Option not found");
                 System.out.println("\nError a la vuelta");

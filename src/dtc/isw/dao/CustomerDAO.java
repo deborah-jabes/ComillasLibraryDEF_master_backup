@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dtc.isw.domain.Customer;
 
@@ -60,5 +61,26 @@ public class CustomerDAO {
         }
         System.out.println("NO encontrado");
         return false;
+    }
+
+    public static HashMap<String,Object> getColumnCond(String table, String condicion, int column)
+    {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        HashMap<String,Object> res = new HashMap<String,Object>();
+        Integer i = 0;
+        try (PreparedStatement pst = con.prepareStatement("SELECT * FROM " + table + " WHERE " + condicion);
+             ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                res.put(i.toString(),rs.getString(column));
+                i +=1 ;
+            }
+            return res;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("Tabla NO encontrado");
+        return res;
+
+
     }
 }

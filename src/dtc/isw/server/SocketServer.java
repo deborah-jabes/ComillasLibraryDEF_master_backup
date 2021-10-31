@@ -74,6 +74,19 @@ public class SocketServer extends Thread {
                         break;
                     }
 
+                case "/getColumnInfo":
+                    CustomerControler customerControlerInfo = new CustomerControler();
+                    String table = (String) mensajeIn.getSession().get("table");
+                    String condicion = (String) mensajeIn.getSession().get("condicion");
+                    int columna = (Integer) mensajeIn.getSession().get("columna");
+                    session = customerControlerInfo.getColumnCond(table,condicion,columna);
+                    mensajeOut.setContext("/getColumnInfoEnd");
+                    mensajeOut.setSession(session);
+                    objectOutputStream.writeObject(mensajeOut);
+                    break;
+
+
+
                 default:
                     System.out.println("\nParámetro no encontrado");
                     break;
