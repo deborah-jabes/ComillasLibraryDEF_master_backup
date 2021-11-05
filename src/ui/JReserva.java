@@ -7,9 +7,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class JReserva extends JFrame {
+
+    //Constantes
+    public static ArrayList<String> HORAS = new ArrayList<String>(Arrays.asList("08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00"));
 
     //Variables
     JComboBox biblioteca;
@@ -18,6 +22,12 @@ public class JReserva extends JFrame {
     JComboBox horaIn;
     JComboBox horaFin;
     JButton salir;
+    JButton reservar;
+    JLabel b;
+    JLabel p;
+    JLabel m;
+    JLabel hi;
+    JLabel hf;
     HashMap<String,Object> h = new HashMap<String,Object>();
     ArrayList<Object> noRepeat = new ArrayList<Object>();
 
@@ -37,12 +47,19 @@ public class JReserva extends JFrame {
         horaIn = new JComboBox();
         horaFin = new JComboBox();
         salir = new JButton("Salir");
+        reservar = new JButton("Reservar el asiento");
+        b = new JLabel("Biblioteca:");
+        p = new JLabel("Planta:");
+        m = new JLabel("Mesa:");
+        hi = new JLabel("Horario Inicial:");
+        hf = new JLabel("Horario Final:");
         Font fontTexto = new Font("Arial", Font.BOLD, 12);
 
         //Paneles
         JPanel pnlNorth = new JPanel();
         JPanel pnlCenter = new JPanel();
         JPanel pnlSouth = new JPanel();
+        JPanel pnlEast = new JPanel();
 
         //Modificacion fuentes
         biblioteca.setFont(fontTexto);
@@ -56,6 +73,8 @@ public class JReserva extends JFrame {
         biblioteca.addItem("");
         planta.addItem("");
         mesa.addItem("");
+        horaIn.addItem("");
+        horaFin.addItem("");
 
         //biblioteca
         biblioteca.addItem("Calle de Alberto Aguilera 25");
@@ -148,17 +167,26 @@ public class JReserva extends JFrame {
         });
 
         //Norte
-        pnlNorth.setLayout(new GridLayout(1, 4));
+        pnlNorth.setLayout(new GridLayout(2, 4));
+        pnlNorth.add(b);
+        pnlNorth.add(p);
+        pnlNorth.add(m);
+        pnlNorth.add(salir);
         pnlNorth.add(biblioteca);
         pnlNorth.add(planta);
         pnlNorth.add(mesa);
-        pnlNorth.add(salir);
         this.add(pnlNorth, BorderLayout.NORTH);
 
         //Sur
+        pnlSouth.add(hi);
         pnlSouth.add(horaIn);
+        pnlSouth.add(hf);
         pnlSouth.add(horaFin);
         this.add(pnlSouth, BorderLayout.SOUTH);
+
+        //Este
+        pnlEast.add(reservar);
+        this.add(pnlEast,BorderLayout.EAST);
 
         //Ventana
         this.setSize(800, 800);
