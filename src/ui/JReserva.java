@@ -52,13 +52,16 @@ public class JReserva extends JFrame {
         horaFin.setFont(fontTexto);
 
         //Configuracion ComboBoxes
+        //Valores nulos
+        biblioteca.addItem("");
+        planta.addItem("");
+        mesa.addItem("");
 
         //biblioteca
-        biblioteca.addItem("");
         biblioteca.addItem("Calle de Alberto Aguilera 25");
+        biblioteca.addItem("Otro");
 
         //planta
-        planta.addItem("");
         //planta.addItem("3ª Planta");
         //planta.addItem("4ª Planta");
         //planta.addItem("5ª Planta");
@@ -66,8 +69,34 @@ public class JReserva extends JFrame {
         biblioteca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                noRepeat = new ArrayList<Object>(); // CUANDO PONGAMOS NUEVA BIBLIOTECA, HAY QUE EVITAR QUE SE REPITA LOS VALORES
+
+                //Previous options eliminated and replaced
+                switch(planta.getItemCount())
+                {
+                    case 1:
+                        System.out.println("No hay valores guardados");
+                        break;
+
+                    default:
+                        planta.removeAllItems();
+                        planta.addItem("");
+                        break;
+                }
+
+                switch(mesa.getItemCount())
+                {
+                    case 1:
+                        System.out.println("No hay valores guardados");
+                        break;
+
+                    default:
+                        mesa.removeAllItems();
+                        mesa.addItem("");
+                        break;
+                }
+
                 Client client = new Client();
+                noRepeat = new ArrayList<Object>();
                 HashMap<String,Object> session = new HashMap<>();
                 session.put("table","listaasientos");
                 session.put("condicion","ocupado=false AND biblioteca='"+ biblioteca.getSelectedItem().toString()+"'");
@@ -88,16 +117,20 @@ public class JReserva extends JFrame {
         });
 
         //mesa
-
-        mesa.addItem("");
-
         planta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Client client = new Client();
                 HashMap<String,Object> session = new HashMap<>();
                 session.put("table","listaasientos");
-                session.put("condicion","ocupado=false AND biblioteca='" + biblioteca.getSelectedItem().toString() + "' AND planta='" + planta.getSelectedItem().toString() + "'");
+                if(biblioteca.getSelectedItem() != null && planta.getSelectedItem() != null)
+                {
+                    session.put("condicion","ocupado=false AND biblioteca='" + biblioteca.getSelectedItem().toString() + "' AND planta='" + planta.getSelectedItem().toString() + "'");
+                }
+                else
+                {
+                    session.put("condicion","ocupado = false AND ocupado = true"); // Resultado nulo
+                }
                 session.put("columna", 3);
                 client.enviar("/getColumnInfo",session);
                 h = (HashMap<String,Object>) session.get("Respuesta");
