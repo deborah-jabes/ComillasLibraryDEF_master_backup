@@ -18,14 +18,12 @@ public class JReserva extends JFrame {
     //Variables
     JComboBox biblioteca;
     JComboBox planta;
-    JComboBox mesa;
     JComboBox horaIn;
     JComboBox horaFin;
+    JButton buscar;
     JButton salir;
-    JButton reservar;
     JLabel b;
     JLabel p;
-    JLabel m;
     JLabel hi;
     JLabel hf;
     HashMap<String,Object> h = new HashMap<String,Object>();
@@ -43,28 +41,23 @@ public class JReserva extends JFrame {
         //Instanciar variables
         biblioteca = new JComboBox();
         planta = new JComboBox();
-        mesa = new JComboBox();
         horaIn = new JComboBox();
         horaFin = new JComboBox();
-        salir = new JButton("Salir");
-        reservar = new JButton("Reservar el asiento");
+        buscar = new JButton("Buscar Mesas");
+        salir = new JButton("Volver a Opciones");
         b = new JLabel("Biblioteca:");
-        p = new JLabel("Planta:");
-        m = new JLabel("Mesa:");
+        p = new JLabel("Plantas Libres:");
         hi = new JLabel("Horario Inicial:");
         hf = new JLabel("Horario Final:");
         Font fontTexto = new Font("Arial", Font.BOLD, 12);
 
         //Paneles
-        JPanel pnlNorth = new JPanel();
         JPanel pnlCenter = new JPanel();
         JPanel pnlSouth = new JPanel();
-        JPanel pnlEast = new JPanel();
 
         //Modificacion fuentes
         biblioteca.setFont(fontTexto);
         planta.setFont(fontTexto);
-        mesa.setFont(fontTexto);
         horaIn.setFont(fontTexto);
         horaFin.setFont(fontTexto);
 
@@ -72,7 +65,6 @@ public class JReserva extends JFrame {
         //Valores nulos
         biblioteca.addItem("");
         planta.addItem("");
-        mesa.addItem("");
         horaIn.addItem("");
         horaFin.addItem("");
 
@@ -102,20 +94,7 @@ public class JReserva extends JFrame {
                         break;
                 }
 
-                switch(mesa.getItemCount())
-                {
-                    case 1:
-                        System.out.println("No hay valores guardados");
-                        break;
-
-                    default:
-                        mesa.removeAllItems();
-                        mesa.addItem("");
-                        break;
-                }
-
                 Client client = new Client();
-                noRepeat = new ArrayList<Object>();
                 HashMap<String,Object> session = new HashMap<>();
                 session.put("table","listaasientos");
                 session.put("condicion","ocupado=false AND biblioteca='"+ biblioteca.getSelectedItem().toString()+"'");
@@ -135,58 +114,65 @@ public class JReserva extends JFrame {
             }
         });
 
-        //mesa
-        planta.addActionListener(new ActionListener() {
+        //HoraIn
+        for(int i = 0; i<HORAS.size()-1;i++)
+        {
+            horaIn.addItem(HORAS.get(i));
+        }
+
+        //HoraFin
+
+        horaIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Client client = new Client();
-                HashMap<String,Object> session = new HashMap<>();
-                session.put("table","listaasientos");
-                if(biblioteca.getSelectedItem() != null && planta.getSelectedItem() != null)
+
+                switch(horaFin.getItemCount()) {
+                    case 1:
+                        System.out.println("No hay valores guardados");
+                        break;
+
+                    default:
+                        horaFin.removeAllItems();
+                        horaFin.addItem("");
+                        break;
+                }
+
+                int index = HORAS.indexOf(horaIn.getSelectedItem());
+                if(index < HORAS.size()-4)
                 {
-                    session.put("condicion","ocupado=false AND biblioteca='" + biblioteca.getSelectedItem().toString() + "' AND planta='" + planta.getSelectedItem().toString() + "'");
+                    for(int j = 1; j < 5; j++) // Siempre 4 opciones
+                    {
+                        horaFin.addItem(HORAS.get(index+j));
+                    }
                 }
                 else
                 {
-                    session.put("condicion",""); // Resultado nulo
-                }
-                session.put("columna", 3);
-                client.enviar("/getColumnInfo",session);
-                h = (HashMap<String,Object>) session.get("Respuesta");
-                for(Integer i = 0; i< h.size();i++)
-                {
-                    String s = (String) h.get(i.toString());
-                    if(!noRepeat.contains(s))
+                    for(int j = index+1; j < HORAS.size();j++)
                     {
-                        mesa.addItem(s);
-                        noRepeat.add(s);
-                        System.out.println(noRepeat.contains(h.get(i.toString())));
+                        System.out.println(j);
+                        horaFin.addItem(HORAS.get(j));
                     }
+
                 }
             }
         });
 
-        //Norte
-        pnlNorth.setLayout(new GridLayout(2, 4));
-        pnlNorth.add(b);
-        pnlNorth.add(p);
-        pnlNorth.add(m);
-        pnlNorth.add(salir);
-        pnlNorth.add(biblioteca);
-        pnlNorth.add(planta);
-        pnlNorth.add(mesa);
-        this.add(pnlNorth, BorderLayout.NORTH);
+        //Centro
+        pnlCenter.setLayout(new GridLayout(4, 2));
+        pnlCenter.add(b);
+        pnlCenter.add(biblioteca);
+        pnlCenter.add(p);
+        pnlCenter.add(planta);
+        pnlCenter.add(hi);
+        pnlCenter.add(horaIn);
+        pnlCenter.add(hf);
+        pnlCenter.add(horaFin);
+        this.add(pnlCenter, BorderLayout.CENTER);
 
         //Sur
-        pnlSouth.add(hi);
-        pnlSouth.add(horaIn);
-        pnlSouth.add(hf);
-        pnlSouth.add(horaFin);
+        pnlSouth.add(buscar);
+        pnlSouth.add(salir);
         this.add(pnlSouth, BorderLayout.SOUTH);
-
-        //Este
-        pnlEast.add(reservar);
-        this.add(pnlEast,BorderLayout.EAST);
 
         //Ventana
         this.setSize(800, 800);
@@ -197,10 +183,23 @@ public class JReserva extends JFrame {
 
 
         //Funciones botones
-        salir.addActionListener(new ActionListener() {
+        buscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                dispose();
+                ArrayList<String> valores = new ArrayList<String>();
+                valores.add((String) biblioteca.getSelectedItem());
+                valores.add((String) planta.getSelectedItem());
+                valores.add((String) horaIn.getSelectedItem());
+                valores.add((String) horaFin.getSelectedItem());
+                new JReserva2(usuario,valores);
+            }
+        });
+
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 dispose();
                 new JOpciones(usuario);
             }

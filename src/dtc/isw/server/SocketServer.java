@@ -80,7 +80,7 @@ public class SocketServer extends Thread {
                     String condicion = (String) mensajeIn.getSession().get("condicion");
                     int columna = (Integer) mensajeIn.getSession().get("columna");
 
-                    if(condicion != "")
+                    if(!condicion.equals(""))
                     {
                         session = customerControlerInfo.getColumnCond(table,condicion,columna);
                     }
