@@ -76,24 +76,49 @@ public class SocketServer extends Thread {
 
                 case "/getColumnInfo":
                     CustomerControler customerControlerInfo = new CustomerControler();
-                    String table = (String) mensajeIn.getSession().get("table");
+                    String tabla = (String) mensajeIn.getSession().get("table");
                     String condicion = (String) mensajeIn.getSession().get("condicion");
                     int columna = (Integer) mensajeIn.getSession().get("columna");
 
                     if(!condicion.equals(""))
                     {
-                        session = customerControlerInfo.getColumnCond(table,condicion,columna);
+                        session = customerControlerInfo.getColumnCond(tabla,condicion,columna);
                     }
                     else
                     {
-                        session = customerControlerInfo.getColumn(table,columna);
+                        session = customerControlerInfo.getColumn(tabla,columna);
                     }
                     mensajeOut.setContext("/getColumnInfoEnd");
                     mensajeOut.setSession(session);
                     objectOutputStream.writeObject(mensajeOut);
                     break;
 
+                case "/updateColumn":
+                    customerControlerInfo = new CustomerControler();
+                    tabla = (String) mensajeIn.getSession().get("tabla");
+                    String valor = (String) mensajeIn.getSession().get("valor");
+                    condicion = (String) mensajeIn.getSession().get("condicion");
 
+                    if(!condicion.equals(""))
+                    {
+                        customerControlerInfo.updateColumnCond(tabla,valor,condicion);
+                    }
+                    else
+                    {
+                        customerControlerInfo.updateColumn(tabla,valor);
+                    }
+                    mensajeOut.setContext("/updateColumnEnd");
+                    objectOutputStream.writeObject(mensajeOut);
+                    break;
+
+                case "/insertColumn":
+                    customerControlerInfo = new CustomerControler();
+                    tabla = (String) mensajeIn.getSession().get("tabla");
+                    String valores = (String) mensajeIn.getSession().get("valor");
+                    customerControlerInfo.insertColumn(tabla,valores);
+                    mensajeOut.setContext("/updateColumnEnd");
+                    objectOutputStream.writeObject(mensajeOut);
+                    break;
 
                 default:
                     System.out.println("\nParámetro no encontrado");

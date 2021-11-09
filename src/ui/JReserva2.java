@@ -7,27 +7,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class JReserva2 extends JFrame {
-
-    //Constantes
-    public static ArrayList<String> HORAS = new ArrayList<String>(Arrays.asList("08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00"));
-
     //Variables
     JComboBox mesa;
     JButton salir;
     JButton reservar;
     JLabel m;
 
-    HashMap<String,Object> h = new HashMap<String,Object>();
+    HashMap<String,Object> h;
     ArrayList<Object> noRepeat = new ArrayList<Object>();
 
     public void main(String argv[])
     {
         new JReserva2("default",null);
     }
+
+    // valores(0) = biblioteca
+    // valores(1) = planta
+    // valores(2) = horain;
+    // valores(3) = horafin;
 
     public JReserva2(String usuario, ArrayList<String> valores)
     {
@@ -96,6 +96,38 @@ public class JReserva2 extends JFrame {
             {
                 dispose();
                 new JReserva(usuario);
+            }
+        });
+
+        reservar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client client = new Client();
+                HashMap<String,Object> session;
+
+                //insertar valor en tabla reservas
+                session = new HashMap<String,Object>();
+                System.out.println(usuario);
+                session.put("tabla","reservas");
+                session.put("valor","'" + usuario + "' , '" + valores.get(2) + "' , '" + valores.get(3) + "'");
+                client.enviar("/insertColumn",session);
+
+
+                //actualizar tabla listaasientos
+                session = new HashMap<String,Object>();
+                session.put("tabla","listaasientos");
+                session.put("valor","horain = '" + valores.get(2) + "'");
+                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'");
+                client.enviar("/updateColumn",session);
+
+                session = new HashMap<String,Object>();
+                session.put("tabla","listaasientos");
+                session.put("valor","horafin = '" + valores.get(3) + "'");
+                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                client.enviar("/updateColumn",session);
+
+                dispose();
+                new JOpciones(usuario);
             }
         });
     }

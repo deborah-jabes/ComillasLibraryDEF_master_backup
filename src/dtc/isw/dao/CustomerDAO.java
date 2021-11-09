@@ -101,5 +101,41 @@ public class CustomerDAO {
         return res;
     }
 
+    public static void updateColumnCond(String tabla, String valor, String condicion)
+    {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        try(PreparedStatement pst = con.prepareStatement("UPDATE " + tabla + " SET " + valor + "WHERE " + condicion);
+            ResultSet rs = pst.executeQuery()) {
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("Tabla NO encontrado");
+
+    }
+
+    public static void updateColumn(String tabla, String valor) // En caso de ser necesario utilizarlo
+    {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        try(PreparedStatement pst = con.prepareStatement("UPDATE " + tabla + " SET " + valor);
+            ResultSet rs = pst.executeQuery()) {
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("Tabla NO encontrado");
+
+    }
+
+    public static void insertValue(String tabla, String valores)
+    {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        try(PreparedStatement pst = con.prepareStatement("INSERT INTO public." + tabla + " VALUES (" + valores + ")");
+            ResultSet rs = pst.executeQuery()) {
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("Tabla NO encontrado");
+    }
+
 
 }

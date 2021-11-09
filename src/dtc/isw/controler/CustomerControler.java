@@ -27,4 +27,19 @@ public class CustomerControler {
         HashMap<String,Object> h = CustomerDAO.getColumn(table,column);
         return h;
     }
+
+    public void updateColumnCond(String tabla, String valor, String condicion)
+    {
+        CustomerDAO.updateColumnCond(tabla,valor,condicion);
+    }
+
+    public void updateColumn(String tabla, String valor)
+    {
+        CustomerDAO.updateColumn(tabla,valor);
+    }
+
+    public void insertColumn(String tabla, String valores)
+    {
+        CustomerDAO.insertValue(tabla,valores);
+    }
 }

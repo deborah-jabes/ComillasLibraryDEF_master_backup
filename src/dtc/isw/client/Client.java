@@ -57,6 +57,14 @@ public class Client {
                 session.put("Respuesta",h);
                 break;
 
+            case "/updateColumnEnd":
+                System.out.println("Valor actualizado");
+                break;
+
+            case "/insertColumnEnd":
+                System.out.println("Nuevo valores insertados");
+                break;
+
             default:
                 Logger.getRootLogger().info("Option not found");
                 System.out.println("\nError a la vuelta");
