@@ -22,4 +22,9 @@ public class CustomerControler {
         HashMap<String,Object> h = CustomerDAO.getColumnCond(table,condicion,column);
         return h;
     }
+    public HashMap<String,Object> getColumn(String table, int column)
+    {
+        HashMap<String,Object> h = CustomerDAO.getColumn(table,column);
+        return h;
+    }
 }

@@ -80,7 +80,26 @@ public class CustomerDAO {
         }
         System.out.println("Tabla NO encontrado");
         return res;
-
-
     }
+
+    public static HashMap<String,Object> getColumn(String table, int column)
+    {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        HashMap<String,Object> res = new HashMap<String,Object>();
+        Integer i = 0;
+        try (PreparedStatement pst = con.prepareStatement("SELECT * FROM " + table);
+             ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                res.put(i.toString(),rs.getString(column));
+                i +=1 ;
+            }
+            return res;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("Tabla NO encontrado");
+        return res;
+    }
+
+
 }

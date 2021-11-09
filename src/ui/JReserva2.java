@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class JReserva extends JFrame {
+public class JReserva2 extends JFrame {
 
     //Constantes
     public static ArrayList<String> HORAS = new ArrayList<String>(Arrays.asList("08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00"));
@@ -33,10 +33,10 @@ public class JReserva extends JFrame {
 
     public void main(String argv[])
     {
-        new JReserva("default");
+        new JReserva2("default");
     }
 
-    public JReserva(String usuario)
+    public JReserva2(String usuario)
     {
         super("Reserva");
 
@@ -148,7 +148,7 @@ public class JReserva extends JFrame {
                 }
                 else
                 {
-                    session.put("condicion",""); // Resultado nulo
+                    session.put("condicion","ocupado = false AND ocupado = true"); // Resultado nulo
                 }
                 session.put("columna", 3);
                 client.enviar("/getColumnInfo",session);
