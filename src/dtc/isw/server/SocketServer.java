@@ -49,12 +49,19 @@ public class SocketServer extends Thread {
                     mensajeOut.setSession(session);
                     objectOutputStream.writeObject(mensajeOut);
                     break;
+
                 case "/loginUser":
                     CustomerControler customerControlerlogin = new CustomerControler();
                     String user = ((Customer) mensajeIn.getSession().get("id")).getUser();
                     String password = ((Customer) mensajeIn.getSession().get("id")).getPassword();
-                    boolean u = customerControlerlogin.checkCustomer(user,1);
-                    boolean p = customerControlerlogin.checkCustomer(password,2);
+                    boolean u = customerControlerlogin.checkCustomer("listausuarios", user,1);
+                    boolean p;
+                    if(u) {
+                        p = customerControlerlogin.checkCustomerCond("listausuarios", password,"username = '" + user + "'", 2);
+                    }
+                    else{
+                        p = false;
+                    }
                     if(u && p)
                     {
                         mensajeOut.setContext("/checkCustomerResponse");
@@ -99,6 +106,8 @@ public class SocketServer extends Thread {
                     String valor = (String) mensajeIn.getSession().get("valor");
                     condicion = (String) mensajeIn.getSession().get("condicion");
 
+                    System.out.println(condicion);
+
                     if(!condicion.equals(""))
                     {
                         customerControlerInfo.updateColumnCond(tabla,valor,condicion);
@@ -117,6 +126,15 @@ public class SocketServer extends Thread {
                     String valores = (String) mensajeIn.getSession().get("valor");
                     customerControlerInfo.insertColumn(tabla,valores);
                     mensajeOut.setContext("/updateColumnEnd");
+                    objectOutputStream.writeObject(mensajeOut);
+                    break;
+
+                case "/deleteValue":
+                    customerControlerInfo = new CustomerControler();
+                    tabla = (String) mensajeIn.getSession().get("tabla");
+                    condicion = (String) mensajeIn.getSession().get("condicion");
+                    customerControlerInfo.deleteValue(tabla,condicion);
+                    mensajeOut.setContext("/deleteValueEnd");
                     objectOutputStream.writeObject(mensajeOut);
                     break;
 

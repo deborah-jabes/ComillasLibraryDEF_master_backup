@@ -65,6 +65,10 @@ public class Client {
                 System.out.println("Nuevo valores insertados");
                 break;
 
+            case "/deleteValueEnd":
+                System.out.println("Valor eliminado");
+                break;
+
             default:
                 Logger.getRootLogger().info("Option not found");
                 System.out.println("\nError a la vuelta");

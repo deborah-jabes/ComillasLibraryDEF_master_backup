@@ -42,9 +42,30 @@ public class CustomerDAO {
 
     }
 
-    public static boolean checkCustomer(String user, int column) {
+    public static boolean checkCustomerCond(String tabla, String user, String cond , int column) {
         Connection con = ConnectionDAO.getInstance().getConnection();
-        try (PreparedStatement pst = con.prepareStatement("SELECT * FROM listausuarios");
+        try (PreparedStatement pst = con.prepareStatement("SELECT * FROM " + tabla + " WHERE " + cond);
+             ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                if (user.equals(rs.getString(column))) {
+                    System.out.println("Encontrado");
+                    return true;
+                }
+                /*else {
+                    System.out.println("NO encontrado");
+                    return false;
+                }*/
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("NO encontrado");
+        return false;
+    }
+
+    public static boolean checkCustomer(String tabla, String user, int column) {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        try (PreparedStatement pst = con.prepareStatement("SELECT * FROM " + tabla);
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 if (user.equals(rs.getString(column))) {
@@ -104,13 +125,13 @@ public class CustomerDAO {
     public static void updateColumnCond(String tabla, String valor, String condicion)
     {
         Connection con = ConnectionDAO.getInstance().getConnection();
-        try(PreparedStatement pst = con.prepareStatement("UPDATE " + tabla + " SET " + valor + "WHERE " + condicion);
+        try(PreparedStatement pst = con.prepareStatement("UPDATE " + tabla + " SET " + valor + " WHERE " + condicion);
             ResultSet rs = pst.executeQuery()) {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        System.out.println("Tabla NO encontrado");
+        //System.out.println("Tabla NO encontrado");
 
     }
 
@@ -122,7 +143,7 @@ public class CustomerDAO {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        System.out.println("Tabla NO encontrado");
+        //System.out.println("Tabla NO encontrado");
 
     }
 
@@ -130,6 +151,17 @@ public class CustomerDAO {
     {
         Connection con = ConnectionDAO.getInstance().getConnection();
         try(PreparedStatement pst = con.prepareStatement("INSERT INTO public." + tabla + " VALUES (" + valores + ")");
+            ResultSet rs = pst.executeQuery()) {
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("Tabla NO encontrado");
+    }
+
+    public static void deleteValue(String tabla, String cond)
+    {
+        Connection con = ConnectionDAO.getInstance().getConnection();
+        try(PreparedStatement pst = con.prepareStatement("DELETE FROM " + tabla + " WHERE " + cond);
             ResultSet rs = pst.executeQuery()) {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

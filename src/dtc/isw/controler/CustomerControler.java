@@ -12,19 +12,24 @@ public class CustomerControler {
         CustomerDAO.getClientes(lista);
     }
 
-    public boolean checkCustomer(String user, int column) {
-        boolean b = CustomerDAO.checkCustomer(user, column);
+    public boolean checkCustomerCond(String tabla, String user, String cond , int column) {
+        boolean b = CustomerDAO.checkCustomerCond(tabla, user, cond, column);
         return b;
     }
 
-    public HashMap<String,Object> getColumnCond(String table, String condicion, int column)
+    public boolean checkCustomer(String tabla, String user, int column) {
+        boolean b = CustomerDAO.checkCustomer(tabla, user, column);
+        return b;
+    }
+
+    public HashMap<String,Object> getColumnCond(String tabla, String condicion, int column)
     {
-        HashMap<String,Object> h = CustomerDAO.getColumnCond(table,condicion,column);
+        HashMap<String,Object> h = CustomerDAO.getColumnCond(tabla,condicion,column);
         return h;
     }
-    public HashMap<String,Object> getColumn(String table, int column)
+    public HashMap<String,Object> getColumn(String tabla, int column)
     {
-        HashMap<String,Object> h = CustomerDAO.getColumn(table,column);
+        HashMap<String,Object> h = CustomerDAO.getColumn(tabla,column);
         return h;
     }
 
@@ -41,5 +46,10 @@ public class CustomerControler {
     public void insertColumn(String tabla, String valores)
     {
         CustomerDAO.insertValue(tabla,valores);
+    }
+
+    public void deleteValue(String tabla, String cond)
+    {
+        CustomerDAO.deleteValue(tabla,cond);
     }
 }

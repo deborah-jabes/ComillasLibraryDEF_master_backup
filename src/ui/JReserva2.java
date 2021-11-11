@@ -116,13 +116,25 @@ public class JReserva2 extends JFrame {
                 //actualizar tabla listaasientos
                 session = new HashMap<String,Object>();
                 session.put("tabla","listaasientos");
+                session.put("valor","ocupado = true");
+                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                client.enviar("/updateColumn",session);
+
+                session = new HashMap<String,Object>();
+                session.put("tabla","listaasientos");
                 session.put("valor","horain = '" + valores.get(2) + "'");
-                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'");
+                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
                 client.enviar("/updateColumn",session);
 
                 session = new HashMap<String,Object>();
                 session.put("tabla","listaasientos");
                 session.put("valor","horafin = '" + valores.get(3) + "'");
+                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                client.enviar("/updateColumn",session);
+
+                session = new HashMap<String,Object>();
+                session.put("tabla","listaasientos");
+                session.put("valor","username = '" + usuario + "'");
                 session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
                 client.enviar("/updateColumn",session);
 
