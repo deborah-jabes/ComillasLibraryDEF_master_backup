@@ -1,6 +1,7 @@
 package ui;
 
 import dtc.isw.client.Client;
+import util.JInfoBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,8 +27,12 @@ public class JReserva extends JFrame {
     JLabel p;
     JLabel hi;
     JLabel hf;
+    JLabel intro;
     HashMap<String,Object> h = new HashMap<String,Object>();
     ArrayList<Object> noRepeat = new ArrayList<Object>();
+
+    public static int MAXWIDTH = 800;
+    public static int MAXHEIGHT = 800;
 
     public void main(String argv[])
     {
@@ -36,7 +41,7 @@ public class JReserva extends JFrame {
 
     public JReserva(String usuario)
     {
-        super("Reserva");
+        super("ComillasLibrary: Reservacion (Informacion)");
 
         //Instanciar variables
         biblioteca = new JComboBox();
@@ -45,21 +50,40 @@ public class JReserva extends JFrame {
         horaFin = new JComboBox();
         buscar = new JButton("Buscar Mesas");
         salir = new JButton("Volver a Opciones");
-        b = new JLabel("Biblioteca:");
-        p = new JLabel("Plantas Libres:");
-        hi = new JLabel("Horario Inicial:");
-        hf = new JLabel("Horario Final:");
-        Font fontTexto = new Font("Arial", Font.BOLD, 12);
+        b = new JLabel("Biblioteca:", SwingConstants.CENTER);
+        p = new JLabel("Plantas Libres:", SwingConstants.CENTER);
+        hi = new JLabel("Horario Inicial:", SwingConstants.CENTER);
+        hf = new JLabel("Horario Final:", SwingConstants.CENTER);
+        intro = new JLabel("Introduzca los datos, por favor.",SwingConstants.CENTER);
+        Font fTexto = new Font("Arial", Font.BOLD, 12);
+        Font fTitulo = new Font("Arial",Font.BOLD, 25);
 
         //Paneles
+        JPanel pnlNorth = new JPanel();
         JPanel pnlCenter = new JPanel();
         JPanel pnlSouth = new JPanel();
 
         //Modificacion fuentes
-        biblioteca.setFont(fontTexto);
-        planta.setFont(fontTexto);
-        horaIn.setFont(fontTexto);
-        horaFin.setFont(fontTexto);
+        b.setFont(fTitulo);
+        p.setFont(fTitulo);
+        hi.setFont(fTitulo);
+        hf.setFont(fTitulo);
+        intro.setFont(fTexto);
+
+        b.setOpaque(true);
+        b.setBackground(Color.GRAY);
+
+        p.setOpaque(true);
+        p.setBackground(Color.GRAY);
+
+        hi.setOpaque(true);
+        hi.setBackground(Color.GRAY);
+
+        hf.setOpaque(true);
+        hf.setBackground(Color.GRAY);
+
+        intro.setOpaque(true);
+        intro.setBackground(Color.CYAN);
 
         //Configuracion ComboBoxes
         //Valores nulos
@@ -157,8 +181,10 @@ public class JReserva extends JFrame {
             }
         });
 
+        //Norte
+
         //Centro
-        pnlCenter.setLayout(new GridLayout(4, 2));
+        pnlCenter.setLayout(new GridLayout(4, 2, 0, 2));
         pnlCenter.add(b);
         pnlCenter.add(biblioteca);
         pnlCenter.add(p);
@@ -175,7 +201,7 @@ public class JReserva extends JFrame {
         this.add(pnlSouth, BorderLayout.SOUTH);
 
         //Ventana
-        this.setSize(800, 800);
+        this.setSize(MAXWIDTH, MAXHEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -187,13 +213,20 @@ public class JReserva extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                dispose();
-                ArrayList<String> valores = new ArrayList<String>();
-                valores.add((String) biblioteca.getSelectedItem());
-                valores.add((String) planta.getSelectedItem());
-                valores.add((String) horaIn.getSelectedItem());
-                valores.add((String) horaFin.getSelectedItem());
-                new JReserva2(usuario,valores);
+                if(biblioteca.getSelectedItem().equals("") || planta.getSelectedItem().equals("") || horaIn.getSelectedItem().equals("") || horaFin.getSelectedItem().equals("") )
+                {
+                    JInfoBox.infoBox("Error","Error: Debe rellenar toda la informacion");
+                }
+                else {
+
+                    dispose();
+                    ArrayList<String> valores = new ArrayList<String>();
+                    valores.add((String) biblioteca.getSelectedItem());
+                    valores.add((String) planta.getSelectedItem());
+                    valores.add((String) horaIn.getSelectedItem());
+                    valores.add((String) horaFin.getSelectedItem());
+                    new JReserva2(usuario, valores);
+                }
             }
         });
 

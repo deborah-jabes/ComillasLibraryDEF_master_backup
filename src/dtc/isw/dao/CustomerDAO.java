@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import dtc.isw.domain.Customer;
@@ -87,13 +88,19 @@ public class CustomerDAO {
     public static HashMap<String,Object> getColumnCond(String table, String condicion, int column)
     {
         Connection con = ConnectionDAO.getInstance().getConnection();
+        ArrayList<String> a = new ArrayList<String>();
         HashMap<String,Object> res = new HashMap<String,Object>();
         Integer i = 0;
         try (PreparedStatement pst = con.prepareStatement("SELECT * FROM " + table + " WHERE " + condicion);
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
-                res.put(i.toString(),rs.getString(column));
+                a.add(i,rs.getString(column));
                 i +=1 ;
+            }
+            Collections.sort(a);
+            for(Integer j = 0; j<a.size();j++)
+            {
+                res.put(j.toString(),a.get(j));
             }
             return res;
         } catch (SQLException ex) {
@@ -106,13 +113,19 @@ public class CustomerDAO {
     public static HashMap<String,Object> getColumn(String table, int column)
     {
         Connection con = ConnectionDAO.getInstance().getConnection();
+        ArrayList<String> a = new ArrayList<String>();
         HashMap<String,Object> res = new HashMap<String,Object>();
         Integer i = 0;
         try (PreparedStatement pst = con.prepareStatement("SELECT * FROM " + table);
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
-                res.put(i.toString(),rs.getString(column));
+                a.add(i,rs.getString(column));
                 i +=1 ;
+            }
+            Collections.sort(a);
+            for(Integer j = 0; j<a.size();j++)
+            {
+                res.put(j.toString(),a.get(j));
             }
             return res;
         } catch (SQLException ex) {

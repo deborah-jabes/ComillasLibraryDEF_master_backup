@@ -15,6 +15,9 @@ public class JOpciones extends JFrame
     JButton perfil;
     JButton salir;
 
+    public static int MAXWIDTH = 800;
+    public static int MAXHEIGHT = 800;
+
     public static void main(String argv[])
     {
         new JOpciones("default");
@@ -22,17 +25,17 @@ public class JOpciones extends JFrame
 
     public JOpciones(String usuario)
     {
-        super("ComillasLibrary: Menu Principal");
+        super("ComillasLibrary: " + usuario);
 
         //Instanciar variables
         reservar = new JButton("Reserva un asiento");
         cancelar = new JButton("Cancelar la reserva");
         perfil = new JButton("Perfil");
-        salir = new JButton("Salir");
-        Font fontTitulo = new Font("Arial",Font.BOLD,20);
+        salir = new JButton("Logout");
 
         //Paneles
         JPanel pnlNorth = new JPanel();
+        JPanel pnlCenter = new JPanel();
         JPanel pnlSouth = new JPanel();
 
         //Modificacion fuentes
@@ -45,12 +48,21 @@ public class JOpciones extends JFrame
         pnlNorth.add(perfil);
         this.add(pnlNorth, BorderLayout.NORTH);
 
+        //Centro
+        double d = 0.8*MAXHEIGHT;
+        int h = (int) d;
+        Image logo = new ImageIcon("src/Recursos/Inspiracion.png").getImage();
+        ImageIcon ii = new ImageIcon(logo.getScaledInstance(MAXWIDTH,h,java.awt.Image.SCALE_SMOOTH));
+        JLabel im = new JLabel(ii);
+        pnlCenter.add(im);
+        this.add(pnlCenter, BorderLayout.CENTER);
+
         //Sur
         pnlSouth.add(salir);
         this.add(pnlSouth, BorderLayout.SOUTH);
 
         //Ventana
-        this.setSize(800,800);
+        this.setSize(MAXWIDTH,MAXHEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -124,6 +136,14 @@ public class JOpciones extends JFrame
                 else {
                     JInfoBox.infoBox("Error","Error: No has hecho una reserva");
                 }
+            }
+        });
+
+        perfil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new JPerfil(usuario);
             }
         });
 

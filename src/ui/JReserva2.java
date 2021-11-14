@@ -1,6 +1,7 @@
 package ui;
 
 import dtc.isw.client.Client;
+import util.JInfoBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,9 @@ public class JReserva2 extends JFrame {
     HashMap<String,Object> h;
     ArrayList<Object> noRepeat = new ArrayList<Object>();
 
+    public static int MAXWIDTH = 800;
+    public static int MAXHEIGHT = 800;
+
     public void main(String argv[])
     {
         new JReserva2("default",null);
@@ -31,7 +35,7 @@ public class JReserva2 extends JFrame {
 
     public JReserva2(String usuario, ArrayList<String> valores)
     {
-        super("Reserva");
+        super("ComillasLibrary: Reservacion (Opciones)");
 
         //Instanciar variables
         mesa = new JComboBox();
@@ -79,13 +83,22 @@ public class JReserva2 extends JFrame {
         pnlNorth.add(mesa);
         this.add(pnlNorth, BorderLayout.NORTH);
 
+        //Centro
+        double d = 0.8*MAXHEIGHT;
+        int h = (int) d;
+        Image logo = new ImageIcon("src/Recursos/Bibliotecas/"+valores.get(0)+"/"+valores.get(1)+".png").getImage();
+        ImageIcon ii = new ImageIcon(logo.getScaledInstance(MAXWIDTH,h,java.awt.Image.SCALE_SMOOTH));
+        JLabel im = new JLabel(ii);
+        pnlCenter.add(im);
+        this.add(pnlCenter, BorderLayout.CENTER);
+
         //Sur
         pnlSouth.add(salir);
         pnlSouth.add(reservar);
         this.add(pnlSouth, BorderLayout.SOUTH);
 
         //Ventana
-        this.setSize(800, 800);
+        this.setSize(MAXWIDTH, MAXHEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -102,44 +115,50 @@ public class JReserva2 extends JFrame {
         reservar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Client client = new Client();
-                HashMap<String,Object> session;
+                if(mesa.getSelectedItem().equals(""))
+                {
+                    JInfoBox.infoBox("Error","Error: No has elegido una mesa");
+                }
+                else {
+                    Client client = new Client();
+                    HashMap<String, Object> session;
 
-                //insertar valor en tabla reservas
-                session = new HashMap<String,Object>();
-                System.out.println(usuario);
-                session.put("tabla","reservas");
-                session.put("valor","'" + usuario + "' , '" + valores.get(2) + "' , '" + valores.get(3) + "'");
-                client.enviar("/insertColumn",session);
+                    //insertar valor en tabla reservas
+                    session = new HashMap<String, Object>();
+                    System.out.println(usuario);
+                    session.put("tabla", "reservas");
+                    session.put("valor", "'" + usuario + "' , '" + valores.get(2) + "' , '" + valores.get(3) + "'");
+                    client.enviar("/insertColumn", session);
 
 
-                //actualizar tabla listaasientos
-                session = new HashMap<String,Object>();
-                session.put("tabla","listaasientos");
-                session.put("valor","ocupado = true");
-                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
-                client.enviar("/updateColumn",session);
+                    //actualizar tabla listaasientos
+                    session = new HashMap<String, Object>();
+                    session.put("tabla", "listaasientos");
+                    session.put("valor", "ocupado = true");
+                    session.put("condicion", "biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                    client.enviar("/updateColumn", session);
 
-                session = new HashMap<String,Object>();
-                session.put("tabla","listaasientos");
-                session.put("valor","horain = '" + valores.get(2) + "'");
-                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
-                client.enviar("/updateColumn",session);
+                    session = new HashMap<String, Object>();
+                    session.put("tabla", "listaasientos");
+                    session.put("valor", "horain = '" + valores.get(2) + "'");
+                    session.put("condicion", "biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                    client.enviar("/updateColumn", session);
 
-                session = new HashMap<String,Object>();
-                session.put("tabla","listaasientos");
-                session.put("valor","horafin = '" + valores.get(3) + "'");
-                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
-                client.enviar("/updateColumn",session);
+                    session = new HashMap<String, Object>();
+                    session.put("tabla", "listaasientos");
+                    session.put("valor", "horafin = '" + valores.get(3) + "'");
+                    session.put("condicion", "biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                    client.enviar("/updateColumn", session);
 
-                session = new HashMap<String,Object>();
-                session.put("tabla","listaasientos");
-                session.put("valor","username = '" + usuario + "'");
-                session.put("condicion","biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
-                client.enviar("/updateColumn",session);
+                    session = new HashMap<String, Object>();
+                    session.put("tabla", "listaasientos");
+                    session.put("valor", "username = '" + usuario + "'");
+                    session.put("condicion", "biblioteca = '" + valores.get(0) + "' AND planta = '" + valores.get(1) + "'" + " AND mesa = '" + mesa.getSelectedItem() + "'");
+                    client.enviar("/updateColumn", session);
 
-                dispose();
-                new JOpciones(usuario);
+                    dispose();
+                    new JOpciones(usuario);
+                }
             }
         });
     }

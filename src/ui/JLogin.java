@@ -15,33 +15,57 @@ public class JLogin extends JFrame {
     JTextField password0;
     JLabel usuario1;
     JLabel password1;
+    JLabel intro;
     JButton confirmar;
+    JButton volver;
+
+    public static int MAXWIDTH = 800;
+    public static int MAXHEIGHT = 800;
 
     public static void main(String argv[]) {
         new JLogin();
     }
 
     public JLogin() {
-        super("Login");
+        super("ComillasLibrary: Login");
 
         //Instanciar variables
         usuario0 = new JTextField(50);
-        usuario1 = new JLabel("Usuario: ");
+        usuario1 = new JLabel("Usuario: ",SwingConstants.CENTER);
         password0 = new JTextField(50);
-        password1 = new JLabel("Password: ");
+        password1 = new JLabel("Password: ",SwingConstants.CENTER);
         confirmar = new JButton("Confirmar");
-        Font fontTexto = new Font("Arial", Font.BOLD, 12);
+        volver = new JButton("Volver atras");
+        intro = new JLabel("Introduzca tus datos, por favor.",SwingConstants.CENTER);
+        Font fTexto = new Font("Arial", Font.PLAIN, 12);
+        Font fTitulo = new Font("Arial",Font.BOLD, 25);
 
         //Paneles
+        JPanel pnlNorth = new JPanel();
         JPanel pnlCenter = new JPanel();
         JPanel pnlSouth = new JPanel();
 
         //Modificacion fuentes
-        usuario1.setFont(fontTexto);
-        password1.setFont(fontTexto);
+        usuario1.setFont(fTitulo);
+        password1.setFont(fTitulo);
+        intro.setFont(fTexto);
+
+        usuario1.setOpaque(true);
+        usuario1.setBackground(Color.GRAY);
+
+        password1.setOpaque(true);
+        password1.setBackground(Color.GRAY);
+
+        intro.setOpaque(true);
+        intro.setBackground(Color.CYAN);
+
+        //Norte
+        pnlNorth.setLayout(new GridLayout(1,1));
+        pnlNorth.add(intro);
+        this.add(pnlNorth, BorderLayout.NORTH);
 
         //Centro
-        pnlCenter.setLayout(new GridLayout(2, 2));
+        pnlCenter.setLayout(new GridLayout(2, 2,0 , 2));
         pnlCenter.add(usuario1);
         pnlCenter.add(usuario0);
         pnlCenter.add(password1);
@@ -50,10 +74,11 @@ public class JLogin extends JFrame {
 
         //Sur
         pnlSouth.add(confirmar);
+        pnlSouth.add(volver);
         this.add(pnlSouth, BorderLayout.SOUTH);
 
         //Ventana
-        this.setSize(800, 800);
+        this.setSize(MAXWIDTH, MAXHEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -80,9 +105,18 @@ public class JLogin extends JFrame {
                 else //Username/Password incorrecto
                 {
                     password0.setText("");
-                    JInfoBox.infoBox("Error","Error: Incorrect Login or Password.");
+                    JInfoBox.infoBox("Error","Error: Login o Contrasenya incorrecta.");
 
                 }
+            }
+        });
+
+        volver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                dispose();
+                new JMenu();
             }
         });
     }

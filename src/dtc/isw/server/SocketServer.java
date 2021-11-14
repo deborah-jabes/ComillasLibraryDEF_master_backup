@@ -106,8 +106,6 @@ public class SocketServer extends Thread {
                     String valor = (String) mensajeIn.getSession().get("valor");
                     condicion = (String) mensajeIn.getSession().get("condicion");
 
-                    System.out.println(condicion);
-
                     if(!condicion.equals(""))
                     {
                         customerControlerInfo.updateColumnCond(tabla,valor,condicion);

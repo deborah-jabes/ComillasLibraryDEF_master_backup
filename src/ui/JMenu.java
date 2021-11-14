@@ -7,6 +7,7 @@ public class JMenu extends JFrame
 {
     //Variables
     JButton login;
+    JButton salir;
     JLabel titulo;
     JLabel info;
 
@@ -20,13 +21,15 @@ public class JMenu extends JFrame
 
     public JMenu()
     {
-        super("Menu Principal: ComillasLibrary");
+        super("ComillasLibrary: Menu Principal");
 
         //Instanciar variables
         login = new JButton("Login");
-        titulo = new JLabel("Menu Principal");
-        info = new JLabel("Bienvenido a la aplicacion ComillasLibrary");
-        Font fontTitulo = new Font("Arial",Font.BOLD,20);
+        salir = new JButton("Salir");
+        titulo = new JLabel("Menu Principal", SwingConstants.CENTER);
+        info = new JLabel("Bienvenido a la aplicacion ComillasLibrary", SwingConstants.CENTER);
+        Font fTitulo = new Font("Arial",Font.BOLD,20);
+        Font fTexto = new Font("Arial", Font.PLAIN, 15);
 
         //Paneles
         JPanel pnlNorth = new JPanel();
@@ -34,7 +37,14 @@ public class JMenu extends JFrame
         JPanel pnlCenter = new JPanel();
 
         //Modificacion fuentes
-        titulo.setFont(fontTitulo);
+        titulo.setFont(fTitulo);
+        info.setFont(fTexto);
+
+        titulo.setOpaque(true);
+        info.setOpaque(true);
+        titulo.setBackground(Color.CYAN);
+        info.setBackground(Color.CYAN);
+
 
         //Norte
         pnlNorth.setLayout(new GridLayout(2,1));
@@ -43,9 +53,9 @@ public class JMenu extends JFrame
         this.add(pnlNorth, BorderLayout.NORTH);
 
         //Centro
-        double d = 0.5*MAXHEIGHT;
+        double d = 0.8*MAXHEIGHT;
         int h = (int) d;
-        Image logo = new ImageIcon("./Recursos/LOGO.png").getImage();
+        Image logo = new ImageIcon("src/Recursos/LOGO.png").getImage();
         ImageIcon ii = new ImageIcon(logo.getScaledInstance(MAXWIDTH,h,java.awt.Image.SCALE_SMOOTH));
         JLabel im = new JLabel(ii);
         pnlCenter.add(im);
@@ -53,6 +63,7 @@ public class JMenu extends JFrame
 
         //Sur
         pnlSouth.add(login);
+        pnlSouth.add(salir);
         this.add(pnlSouth, BorderLayout.SOUTH);
 
         //Ventana
@@ -67,6 +78,14 @@ public class JMenu extends JFrame
             {
                 dispose();
                 new JLogin();
+            }
+        });
+
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                dispose();
             }
         });
     }
