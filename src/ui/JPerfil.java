@@ -20,20 +20,20 @@ public class JPerfil extends JFrame {
     JLabel[] variables = new JLabel[numVars];
     ArrayList<String> listVars = new ArrayList<>();
 
-    public static int MAXWIDTH = 800;
-    public static int MAXHEIGHT = 800;
+    public static int MAXWIDTH = 400;
+    public static int MAXHEIGHT = 400;
 
     /**
      * Constructor of the Perfil.java class
      * @param usuario user who logged in previously
      */
     public JPerfil (String usuario) {
-        super("Perfil");
+        super("ComillasLibrary: Perfil");
 
         // Initialize variables
-        labels[0] = new JLabel("Usuario");
-        labels[1] = new JLabel("Contrasenya/Password");
-        labels[2] = new JLabel("Correo");
+        labels[0] = new JLabel("Username");
+        labels[1] = new JLabel("Password");
+        labels[2] = new JLabel("E-mail");
 
         // Make the labels go bold
         for (JLabel label : labels) {
@@ -53,6 +53,8 @@ public class JPerfil extends JFrame {
             map.put("columna", i);
 
             cl.enviar("/getColumnInfo", map);
+
+            //System.out.println(map.get("Respuesta"));
 
             // Parse the response so that it fits to our requirements
             String respuestaUsername = map.get("Respuesta").toString();
@@ -89,10 +91,9 @@ public class JPerfil extends JFrame {
             labels[i].setLabelFor(variables[i]);
         }
 
-
         // Initialize the panel and the corresponding layout
         JPanel title = new JPanel();
-        JPanel pnlSouth = new JPanel();
+        title.setLayout(new GridLayout(2, 1,0 , 1));
 
         // Call the method that does all the layout work
         JPanel form = createForm(labels, variables,10,10,10,10);
@@ -107,20 +108,48 @@ public class JPerfil extends JFrame {
                 new JOpciones(usuario);
             }
         });
-        pnlSouth.add(volver);
-
-        JLabel titlePage = new JLabel("Perfil de " + usuario);
-
+        JLabel titlePage = new JLabel("Perfil de " + usuario, SwingConstants.CENTER);
         title.add(titlePage);
         title.setBackground(Color.cyan);
+        title.add(volver);
+
+        JPanel pnlSouth = new JPanel();
+        pnlSouth.setLayout(new GridLayout(2, 5));
+        pnlSouth.add(new JLabel("Biblioteca:"));
+        pnlSouth.add(new JLabel("Planta:"));
+        pnlSouth.add(new JLabel("Mesa:"));
+        pnlSouth.add(new JLabel("Hora Inicial:"));
+        pnlSouth.add(new JLabel("Hora Final:"));
+        for (int i = 1; i <= 3 ; ++i) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("table", "listaasientos");
+            map.put("condicion", "username='" + usuario + "'");
+            map.put("columna", i);
+
+            cl.enviar("/getColumnInfo", map);
+            HashMap<String,Object> h = (HashMap<String, Object>) map.get("Respuesta");
+            String s = (String) h.get("0");
+            pnlSouth.add(new JLabel(s));
+        }
+
+        for (int i = 2; i <= 3 ; ++i) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("table", "reservas");
+            map.put("condicion", "username='" + usuario + "'");
+            map.put("columna", i);
+
+            cl.enviar("/getColumnInfo", map);
+            HashMap<String,Object> h = (HashMap<String, Object>) map.get("Respuesta");
+            String s = (String) h.get("0");
+            pnlSouth.add(new JLabel(s));
+        }
 
         this.pack();
         getContentPane().add(title, BorderLayout.NORTH);
-        getContentPane().add(form, BorderLayout.CENTER);
+        getContentPane().add(form, BorderLayout.WEST);
         getContentPane().add(pnlSouth,BorderLayout.SOUTH);
 
-
-        //Ventana
+        //Window
         this.setSize(MAXWIDTH,MAXHEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
