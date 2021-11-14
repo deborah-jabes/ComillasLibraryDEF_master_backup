@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"dtc.isw.client"},{"l":"dtc.isw.configuration"},{"l":"dtc.isw.controler"},{"l":"dtc.isw.dao"},{"l":"dtc.isw.domain"},{"l":"dtc.isw.message"},{"l":"dtc.isw.server"},{"l":"ui"},{"l":"util"}]

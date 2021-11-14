@@ -1,0 +1,9 @@
+dtc.isw.client
+dtc.isw.configuration
+dtc.isw.controler
+dtc.isw.dao
+dtc.isw.domain
+dtc.isw.message
+dtc.isw.server
+ui
+util
