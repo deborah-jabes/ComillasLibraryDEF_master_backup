@@ -9,13 +9,12 @@ import java.util.HashMap;
 
 class CustomerDAOTest extends TestCase {
     private static CustomerDAO  dao = null;
-    HashMap<String,Object> h;
 
     @Test
     public void checkCustomer() {
         String tabla = "listausuarios";
         String username = "Admin"; // Admin en la tabla --> return true
-        int columna = 1;
+    int columna = 1;
 
         assertEquals(true, dao.checkCustomer(tabla,username,columna));
     }
