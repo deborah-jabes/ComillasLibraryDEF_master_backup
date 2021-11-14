@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * JReservaInformacion class : in this page, the user can specify the global information for his reservation
+ * In this page, the user can specify the global information for his reservation
  */
 public class JReservaInformacion extends JFrame {
 
@@ -133,6 +133,7 @@ public class JReservaInformacion extends JFrame {
                         break;
                 }
 
+                // Getting the list of sits from the database
                 Client client = new Client();
                 HashMap<String,Object> session = new HashMap<>();
                 session.put("table","listaasientos");

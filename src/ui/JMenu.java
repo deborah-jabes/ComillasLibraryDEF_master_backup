@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * JMenu class : displays the first page the user sees when opening the application
+ * Displays the first page the user sees when opening the application
  */
 public class JMenu extends JFrame
 {

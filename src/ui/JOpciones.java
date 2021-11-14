@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 /**
- * JOpciones class : displays the options for the user to choose
+ * Displays the options for the user to choose
  */
 public class JOpciones extends JFrame
 {

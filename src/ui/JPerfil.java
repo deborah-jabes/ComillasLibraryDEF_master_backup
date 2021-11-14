@@ -10,7 +10,7 @@ import java.util.HashMap;
 import dtc.isw.client.Client;
 
 /**
- * JPerfil class : displays the user's profile
+ * Displays the user's profile
  */
 public class JPerfil extends JFrame {
     JButton modificar;
@@ -24,7 +24,7 @@ public class JPerfil extends JFrame {
     public static int MAXHEIGHT = 400;
 
     /**
-     * Constructor of the Perfil.java class
+     * Constructor of the Perfil class
      * @param usuario user who logged in previously
      */
     public JPerfil (String usuario) {

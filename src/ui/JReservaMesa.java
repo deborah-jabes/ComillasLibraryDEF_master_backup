@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Displays the page where the user can choose a table for his reservation
+ */
 public class JReservaMesa extends JFrame {
     //Variables
     JComboBox mesa;
@@ -33,6 +36,12 @@ public class JReservaMesa extends JFrame {
     // valores(2) = horain;
     // valores(3) = horafin;
 
+    /**
+     * Contructor of JReservaMesa class
+     * Initializes variables and describe the page and its elements
+     * @param usuario The current user
+     * @param valores Table with library and level for the reservation
+     */
     public JReservaMesa(String usuario, ArrayList<String> valores)
     {
         super("ComillasLibrary: Reservacion (Opciones)");

@@ -10,7 +10,7 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 /**
- * JLogin class: Provides the user interface for the user to log in into the application
+ * Provides the user interface for the user to log in into the application
  */
 public class JLogin extends JFrame {
     //Variables
