@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 
+/**
+ * JLogin class: Provides the user interface for the user to log in into the application
+ */
 public class JLogin extends JFrame {
     //Variables
     JTextField usuario0;
@@ -26,6 +29,9 @@ public class JLogin extends JFrame {
         new JLogin();
     }
 
+    /**
+     * Constructor of JLogin class : creates the window with all its components
+     */
     public JLogin() {
         super("ComillasLibrary: Login");
 

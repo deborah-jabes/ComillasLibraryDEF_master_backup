@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * JMenu class : displays the first page the user sees when opening the application
+ */
 public class JMenu extends JFrame
 {
     //Variables
@@ -19,6 +22,9 @@ public class JMenu extends JFrame
         new JMenu();
     }
 
+    /**
+     * JMenu constructor : builds the Menu window with all its components
+     */
     public JMenu()
     {
         super("ComillasLibrary: Menu Principal");
