@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JReserva2 extends JFrame {
+public class JReservaMesa extends JFrame {
     //Variables
     JComboBox mesa;
     JButton salir;
@@ -25,7 +25,7 @@ public class JReserva2 extends JFrame {
 
     public void main(String argv[])
     {
-        new JReserva2("default",null);
+        new JReservaMesa("default",null);
     }
 
     // valores(0) = biblioteca
@@ -33,7 +33,7 @@ public class JReserva2 extends JFrame {
     // valores(2) = horain;
     // valores(3) = horafin;
 
-    public JReserva2(String usuario, ArrayList<String> valores)
+    public JReservaMesa(String usuario, ArrayList<String> valores)
     {
         super("ComillasLibrary: Reservacion (Opciones)");
 
@@ -108,7 +108,7 @@ public class JReserva2 extends JFrame {
             public void actionPerformed(ActionEvent e)
             {
                 dispose();
-                new JReserva(usuario);
+                new JReservaInformacion(usuario);
             }
         });
 

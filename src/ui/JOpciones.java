@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 
+/**
+ * JOpciones class : displays the options for the user to choose
+ */
 public class JOpciones extends JFrame
 {
     //Variables
@@ -23,6 +26,10 @@ public class JOpciones extends JFrame
         new JOpciones("default");
     }
 
+    /**
+     * Constructor of JOpciones class
+     * @param usuario the user who logged in previously (JLogin)
+     */
     public JOpciones(String usuario)
     {
         super("ComillasLibrary: " + usuario);
@@ -85,7 +92,7 @@ public class JOpciones extends JFrame
                 else
                 {
                     dispose();
-                    new JReserva(usuario);
+                    new JReservaInformacion(usuario);
                 }
             }
         });

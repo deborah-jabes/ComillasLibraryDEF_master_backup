@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class JReserva extends JFrame {
+/**
+ * JReservaInformacion class : in this page, the user can specify the global information for his reservation
+ */
+public class JReservaInformacion extends JFrame {
 
     //Constantes
     public static ArrayList<String> HORAS = new ArrayList<String>(Arrays.asList("08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00"));
@@ -23,12 +26,20 @@ public class JReserva extends JFrame {
     JComboBox horaFin;
     JButton buscar;
     JButton salir;
+    // biblioteca
     JLabel b;
+    // planta
     JLabel p;
+    //horario inicial
     JLabel hi;
+    //horario final
     JLabel hf;
+    //introducir datos
     JLabel intro;
+
+    // Hashmap donde pondremos el resultado de la request a la base de datos
     HashMap<String,Object> h = new HashMap<String,Object>();
+
     ArrayList<Object> noRepeat = new ArrayList<Object>();
 
     public static int MAXWIDTH = 800;
@@ -36,10 +47,14 @@ public class JReserva extends JFrame {
 
     public void main(String argv[])
     {
-        new JReserva("default");
+        new JReservaInformacion("default");
     }
 
-    public JReserva(String usuario)
+    /**
+     * Contructor of JReservaInformacion
+     * @param usuario the current user
+     */
+    public JReservaInformacion(String usuario)
     {
         super("ComillasLibrary: Reservacion (Informacion)");
 
@@ -138,13 +153,13 @@ public class JReserva extends JFrame {
             }
         });
 
-        //HoraIn
+        //Hora inicio
         for(int i = 0; i<HORAS.size()-1;i++)
         {
             horaIn.addItem(HORAS.get(i));
         }
 
-        //HoraFin
+        //Hora fin
 
         horaIn.addActionListener(new ActionListener() {
             @Override
@@ -225,7 +240,7 @@ public class JReserva extends JFrame {
                     valores.add((String) planta.getSelectedItem());
                     valores.add((String) horaIn.getSelectedItem());
                     valores.add((String) horaFin.getSelectedItem());
-                    new JReserva2(usuario, valores);
+                    new JReservaMesa(usuario, valores);
                 }
             }
         });
