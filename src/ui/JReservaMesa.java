@@ -132,14 +132,6 @@ public class JReservaMesa extends JFrame {
                     Client client = new Client();
                     HashMap<String, Object> session;
 
-                    //insertar valor en tabla reservas
-                    session = new HashMap<String, Object>();
-                    System.out.println(usuario);
-                    session.put("tabla", "reservas");
-                    session.put("valor", "'" + usuario + "' , '" + valores.get(2) + "' , '" + valores.get(3) + "'");
-                    client.enviar("/insertColumn", session);
-
-
                     //actualizar tabla listaasientos
                     session = new HashMap<String, Object>();
                     session.put("tabla", "listaasientos");

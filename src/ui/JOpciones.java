@@ -80,14 +80,14 @@ public class JOpciones extends JFrame
             public void actionPerformed(ActionEvent e) {
                 Client client = new Client();
                 HashMap<String, Object> session = new HashMap<String,Object>();
-                session.put("table","reservas");
+                session.put("table","listaasientos");
                 session.put("condicion","username = '" + usuario + "'");
-                session.put("columna",1);
+                session.put("columna",7);
                 client.enviar("/getColumnInfo",session);
                 //System.out.println(session.get("Respuesta"));
                 HashMap<String,Object> h = (HashMap<String,Object>) session.get("Respuesta");
-                if(usuario.equals(h.get("0"))) {
-                    JInfoBox.infoBox("Error","Error: Ya tienes una reserva");
+                if(h.size() == 4) {
+                    JInfoBox.infoBox("Error","Error: Ya ha hecho el maximo numero de reservas");
                 }
                 else
                 {
@@ -102,18 +102,13 @@ public class JOpciones extends JFrame
             public void actionPerformed(ActionEvent e) {
                 Client client = new Client();
                 HashMap<String, Object> session = new HashMap<String,Object>();
-                session.put("table","reservas");
+                session.put("table","listaasientos");
                 session.put("condicion","username = '" + usuario + "'");
-                session.put("columna",1);
+                session.put("columna",7);
                 client.enviar("/getColumnInfo",session);
                 //System.out.println(session.get("Respuesta"));
                 HashMap<String,Object> h = (HashMap<String,Object>) session.get("Respuesta");
-                if(usuario.equals(h.get("0"))) {
-                    session = new HashMap<String,Object>();
-                    session.put("tabla", "reservas");
-                    session.put("condicion", "username = '" + usuario + "'");
-                    client.enviar("/deleteValue", session);
-
+                if(usuario.equals(h.get("0"))) { // Con comprobar que hay como minimo 1 reserva, sabemos que no es 0
                     session = new HashMap<String,Object>();
                     session.put("tabla","listaasientos");
                     session.put("valor","ocupado = false");
